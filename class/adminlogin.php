@@ -34,10 +34,10 @@ class adminlogin
 
         if(empty($username) || empty($password))
         {
-            return "Username and Password must not be empty!";
+            return "Tên đăng nhập và mật khẩu không được để trống!";
         } else {
-            $sql = "SELECT * FROM account WHERE username='$username' AND password='$password' LIMIT 1";
-            $result = $this->db->select($sql); // Sửa query từ $query thành $sql
+            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' AND level= '0' LIMIT 1";
+            $result = $this->db->select($sql);
 
             if($result != false)
             {
@@ -49,7 +49,7 @@ class adminlogin
             }
             else
             {
-                return "User and Pass not match";
+                return "Tên đăng nhập/ Mật khẩu không đúng!";
                 
             }
         }

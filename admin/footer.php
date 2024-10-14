@@ -1,15 +1,15 @@
-<script src="public/js/jquery-3.2.1.min.js"></script>
+<script src="../admin/public/js/jquery-3.2.1.min.js"></script>
   <!--===============================================================================================-->
-  <script src="public/js/popper.min.js"></script>
+  <script src="../admin/public/js/popper.min.js"></script>
   <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
   <!--===============================================================================================-->
-  <script src="public/js/bootstrap.min.js"></script>
+  <script src="../admin/public/js/bootstrap.min.js"></script>
   <!--===============================================================================================-->
-  <script src="public/js/main.js"></script>
+  <script src="../admin/public/js/main.js"></script>
   <!--===============================================================================================-->
-  <script src="public/js/plugins/pace.min.js"></script>
+  <script src="../admin/public/js/plugins/pace.min.js"></script>
   <!--===============================================================================================-->
-  <script type="text/javascript" src="public/js/plugins/chart.js"></script>
+  <script type="text/javascript" src="../admin/public/js/plugins/chart.js"></script>
   <!--===============================================================================================-->
   <script type="text/javascript">
     var data = {
@@ -84,6 +84,7 @@
       }
     }
   </script>
+  
 </body>
 
 </html>

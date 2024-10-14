@@ -31,7 +31,8 @@ class Session {
         self::init();
         if (self::get("adminlogin") == false){
             self::destroy();
-            header("Location: ../admin/login.php"); // Thêm exit sau header để ngăn chặn mã tiếp tục chạy
+            header("Location: ../admin/login.php");
+            exit();// Thêm exit sau header để ngăn chặn mã tiếp tục chạy
         }
     }
 

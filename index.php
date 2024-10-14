@@ -1,3 +1,9 @@
+<?php
+require_once('class/category.php');
+
+$category = new category();
+$categories = $category->show();
+?>
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -169,15 +175,20 @@
 										<span class="icon-bar"></span>
 									</button>
 								</div>
+								<!-- Thay đổi phần hiển thị danh mục categories trong phần menu -->
 								<div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
 									<ul>
 										<li class="menu-item-has-children menu-item-has-mega-menu">
-											<a href="javascript:void(0);">All Categories</a>
+											<a href="javascript:void(0);">Danh mục sách</a>
 											<div class="mega-menu">
 												<ul class="tg-themetabnav" role="tablist">
-													<li role="presentation" class="active">
-														<a href="#artandphotography" aria-controls="artandphotography" role="tab" data-toggle="tab">Art &amp; Photography</a>
-													</li>
+													<?php foreach ($categories as $cat): ?>
+														<li role="presentation">
+															<a href="category.php?id=<?php echo $cat['cate_id']; ?>">
+																<?php echo $cat['cate_name']; ?>
+															</a>
+														</li>
+													<?php endforeach; ?>
 												</ul>
 												<div class="tab-content tg-themetabcontent">
 													<div role="tabpanel" class="tab-pane active" id="artandphotography">

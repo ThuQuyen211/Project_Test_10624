@@ -5,9 +5,9 @@ class Database {
 		// Hàm kết nối tới CSDL
 		public function connect() {
 			$servername = "localhost";  // Tên máy chủ MySQL
-			$username = "Thu_Quyen";         // Tên người dùng MySQL
+			$username = "admin";         // Tên người dùng MySQL
 			$password = "Anhemnhom8";             // Mật khẩu MySQL (để trống nếu không có)
-			$dbname = "thu_quyen";  // Tên cơ sở dữ liệu
+			$dbname = "library";  // Tên cơ sở dữ liệu
 	
 			// Kết nối tới MySQL
 			$this->conn = new mysqli($servername, $username, $password, $dbname);

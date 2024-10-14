@@ -9,31 +9,49 @@ require ('header.php');
     // Dựa trên giá trị của 'action', include file tương ứng
     switch ($action) {
       case 'danhsachdocgia':
-        include 'list/danhsachdocgia.php';
+        include 'view/reader/list.php';
+        break;
+      case 'themdocgia':
+        include 'view/reader/add.php';
         break;
       case 'danhsachnhaxuatban':
-        include 'list/danhsachnhaxuatban.php';
+        include 'view/publisher/list.php';
+        break;
+      case 'themnhaxuatban':
+        include 'view/publisher/add.php';
         break;
       case 'danhsachsach':
-        include 'list/danhsachsach.php';
+        include 'view/book/list.php';
+        break;
+      case 'themsach':
+        include 'view/book/add.php';
         break;
       case 'danhsachtacgia':
-        include 'list/danhsachtacgia.php';
+        include 'view/author/list.php';
+        break;
+      case 'themtacgia':
+        include 'view/author/add.php';
         break;
       case 'danhsachtheloai':
-        include 'list/danhsachtheloai.php';
+        include 'view/category/list.php';
+        break;
+      case 'themtheloai':
+        include 'view/category/add.php';
         break;
       case 'danhsachtaikhoan':
-        include 'list/danhsachtaikhoan.php';
+        include 'view/account/list.php';
         break;
       case 'quanlybaocao':
-        include 'list/quanlybaocao.php';
+        include 'view/dashboard/list.php';
         break;
       case 'lienhe':
-        include 'list/lienhe.php';
+        include 'view/contact/list.php';
         break;
       case 'danhsachbaidang':
-        include 'list/danhsachbaidang.php';
+        include 'view/post/list.php';
+        break;
+      case 'thembaidang':
+        include 'view/post/add.php';
         break;
       default:
         echo "Trang không tồn tại!";
@@ -41,10 +59,10 @@ require ('header.php');
     }
   } else {
     // Nếu không có 'action', hiển thị trang mặc định
-    include 'dashboard.php'; // trang mặc định khi không có action
+    include 'view/dashboard/list.php'; // trang mặc định khi không có action
   }
 ?>
 
 <?php
-  include_once('footer.php');
-  ?>
+  require('footer.php');
+?>

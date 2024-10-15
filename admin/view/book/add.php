@@ -16,6 +16,7 @@ $publishers = $book->getPublisher();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy dữ liệu từ form
+    $book_name = $_POST["book_name"];
     $au_id = $_POST["au_id"];               // Author ID
     $cate_id = $_POST["cate_id"];           // Category ID
     $pub_id = $_POST["pub_id"];             // Publisher ID
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Nếu upload thành công, thêm tác giả vào database
     if (isset($image_name)) { // Kiể
-        $addBook = $book->add(null, "Tên sách mẫu", $au_id, $cate_id, $pub_id, $page, $status, $image_name, $summary);
+        $addBook = $book->add($book_id, $book_name, $au_id, $cate_id, $pub_id, $page, $status, $image_name, $summary);
         if (!$addBook) {
             $addBook = "Lỗi: Không thể thêm sách. " . mysqli_error($book->db->link);  // Detailed error if add fails
         }
@@ -63,6 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="tile">
                 <div class="tile-body">
                     <form class="row" method="post" enctype="multipart/form-data">
+                        <div class="form-group col-md-12">
+                            <label for="book_name">Tên sách:</label>
+                            <input type="text" name="book_name" id="book_name" class="form-control">
+                        </div>
                         <div class="form-group col-md-4">
                             <label for="au_id">Mã tác giả:</label>
                             <select id="au_id" name="au_id" class="form-control">

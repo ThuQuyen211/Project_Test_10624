@@ -23,6 +23,7 @@ if (isset($_GET['book_id'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy dữ liệu từ form
+    $book_name = $_POST["book_name"];
     $au_id = $_POST["au_id"];               // Author ID
     $cate_id = $_POST["cate_id"];           // Category ID
     $pub_id = $_POST["pub_id"];             // Publisher ID
@@ -43,10 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Nếu upload thành công, thêm tác giả vào database
     if (isset($image_name)) {
-        $editBook = $book->edit($book_id, "Tên sách mẫu", $au_id, $cate_id, $pub_id, $page, $status, $image_name, $summary);
+        $editBook = $book->edit($book_id, $book_name, $au_id, $cate_id, $pub_id, $page, $status, $image_name, $summary);
         if (!$editBook) {
             $editBook = "Lỗi: Không thể cập nhật sách. " . mysqli_error($book->db->link);  // Detailed error if update fails
         } else {
+            echo "Sửa thành công";
             echo "<script>window.location = '/Project_Test_10624/admin/index.php';</script>";
             exit;
         }
@@ -80,7 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="tile-body">
                     <form method="post" enctype="multipart/form-data">
                         <input type="hidden" id="book_id" name="book_id" value="<?php echo $result['book_id']; ?>">
-
+                        <div class="form-group col-md-12">
+                            <label for="book_name">Tên sách:</label>
+                            <input type="text" name="book_name" value="<?php echo $result['book_name']; ?>" class="form-control">
+                        </div>
                         <div class="form-group col-md-12">
                             <label for="au_id">Tác giả:</label>
                             <select name="au_id" class="form-control">
@@ -122,9 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group col-md-12">
                             <label for="trangthai">Trạng thái:</label>
                             <select name="status" class="form-control" id="trangthai">
-                                <option value="con" <?php echo ($result['status'] == 'con') ? 'selected' : ''; ?>>Còn</option>
-                                <option value="het" <?php echo ($result['status'] == 'het') ? 'selected' : ''; ?>>Hết</option>
-                                <option value="cho_bo_sung" <?php echo ($result['status'] == 'cho_bo_sung') ? 'selected' : ''; ?>>Chờ bổ sung</option>
+                                <option value="Còn" <?php echo ($result['status'] == 'Còn') ? 'selected' : ''; ?>>Còn</option>
+                                <option value="Hết" <?php echo ($result['status'] == 'Hết') ? 'selected' : ''; ?>>Hết</option>
+                                <option value="Chờ bổ sung" <?php echo ($result['status'] == 'Chờ bổ sung') ? 'selected' : ''; ?>>Chờ bổ sung</option>
                             </select>
                         </div>
 

@@ -1,8 +1,20 @@
 <?php
+require_once('lib/database.php');
 require_once('class/category.php');
+require_once('class/book.php');
+require_once('class/author.php');
 
 $category = new category();
 $categories = $category->show();
+
+$book = new book();
+$books = $book->show();
+
+$bookModel = new book();
+$newBooks = $bookModel->get3Book(); // Assuming get3Book() method returns the 3 newest books
+
+$author = new author();
+$authors = $author->show();
 ?>
 <!doctype html>
 <html class="no-js" lang="">
@@ -24,7 +36,9 @@ $categories = $category->show();
 	<link rel="stylesheet" href="users/public/css/main.css">
 	<link rel="stylesheet" href="users/public/css/color.css">
 	<link rel="stylesheet" href="users/public/css/responsive.css">
-	<script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+	<script src="users/public/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 <body class="tg-home tg-homeone">
 
@@ -32,182 +46,140 @@ $categories = $category->show();
 		<!--************************************
 				Header Start
 		*************************************-->
-		<header id="tg-header" class="tg-header tg-haslayout">
-			<div class="tg-topbar">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<ul class="tg-addnav">
-								<li>
-									<a href="javascript:void(0);">
-										<i class="icon-envelope"></i>
-										<em>Contact</em>
-									</a>
-								</li>
-								<li>
-									<a href="javascript:void(0);">
-										<i class="icon-question-circle"></i>
-										<em>Help</em>
-									</a>
-								</li>
-							</ul>
-							<div class="dropdown tg-themedropdown tg-currencydropdown">
-								<a href="javascript:void(0);" id="tg-currenty" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="icon-earth"></i>
-									<span>Currency</span>
-								</a>
-								<ul class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-currenty">
-									<li>
-										<a href="javascript:void(0);">
-											<i>£</i>
-											<span>British Pound</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);">
-											<i>$</i>
-											<span>Us Dollar</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);">
-											<i>€</i>
-											<span>Euro</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div class="tg-userlogin">
-								<figure><a href="javascript:void(0);"><img src="images/users/img-01.jpg" alt="image description"></a></figure>
-								<span>Hi, John</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="tg-middlecontainer">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<strong class="tg-logo"><a href="index-2.html"><img src="images/logo.png" alt="company name here"></a></strong>
-							<div class="tg-wishlistandcart">
-								<div class="dropdown tg-themedropdown tg-wishlistdropdown">
-									<a href="javascript:void(0);" id="tg-wishlisst" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="tg-themebadge">3</span>
-										<i class="icon-heart"></i>
-										<span>Đăng nhập</span>
-									</a>
-									<div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-wishlisst">
-										<div class="modal-body">
-											<div class="login-form">
-												<form>
-													<label>Tên đăng nhập *</label>
-													<input name="username" type="text" placeholder="Tên đăng nhập" />
-													<label>Mật khẩu *</label>
-													<input name="password" type="password" placeholder="Mật khẩu" />
-													<div class="checkbox checkbox-primary">
-														<input id="checkbox" type="checkbox" checked>
-														<label for="checkbox">Nhớ mật khẩu</label>
-													</div>
-													<div class="tg-btns">
-														<button class="tg-btn tg-active" type="submit" value="Login">Đăng nhập</button>
-														<button class="tg-btn" type="submit" value="">Hủy</button>
-													</div>
-													<label class="lost-password">
-														<a href="#">Quên mật khẩu?</a>
-													</label>
-												</form>
+<header id="tg-header" class="tg-header tg-haslayout">
+    <div class="tg-middlecontainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <strong class="tg-logo">
+                        <a href="index-2.html">
+                            <img src="\Project_Test_10624\users\public\images\logo_lib.png" alt="company name here" class="logo-small" style="width: 100px; height: auto;">
+                        </a>
+                        <p class="slogan" style="margin-top: 5px; font-size: 14px; color: #555;">Khẩu hiệu của bạn ở đây</p>
+                    </strong>
+						<div class="tg-wishlistandcart">
+						<!-- Login Form (inside the dropdown) -->
+						<div class="dropdown tg-themedropdown tg-wishlistdropdown">
+							<a href="javascript:void(0);" id="tg-wishlist" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="tg-themebadge">3</span>
+								<i class="icon-heart"></i>
+								<span>Đăng nhập</span>
+							</a>
+							<div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-wishlist">
+								<div class="modal-body">
+									<div class="login-form">
+										<form method="POST" action="login.php">
+											<label>Tên đăng nhập *</label>
+											<input name="username" type="text" placeholder="Tên đăng nhập" required />
+											<label>Mật khẩu *</label>
+											<input name="password" type="password" placeholder="Mật khẩu" required />
+											<div class="checkbox checkbox-primary">
+												<input id="checkbox" type="checkbox">
+												<label for="checkbox">Nhớ mật khẩu</label>
 											</div>
-										</div>
-									</div>
-								</div>
-								<div class="dropdown tg-themedropdown tg-minicartdropdown">
-									<a href="javascript:void(0);" id="tg-minicart" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="tg-themebadge">3</span>
-										<i class="icon-cart"></i>
-										<span>Đăng kí</span>
-									</a>
-									<div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-minicart">
-										<div class="modal-body">
-											<div class="login-form">
-												<form method="post">
-													<label>Tên đăng nhập *</label>
-													<input type="text" name="username" placeholder="Tên đăng nhập" />
-													<label>Mật khẩu *</label>
-													<input type="password" name="password" placeholder="Mật khẩu" />
-													<label>Họ và tên *</label>
-													<input type="text" name="full_name" placeholder="Họ tên" />
-												</form>
+											<div class="tg-btns" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+												<!-- Adjusted button size and centered them -->
+												<button class="tg-btn tg-active" type="submit" style="padding: 5px 15px; font-size: 12px; width: auto;">Đăng nhập</button>
+												<button class="tg-btn" type="reset" style="padding: 5px 15px; font-size: 12px; width: auto;">Hủy</button>
 											</div>
-										</div>
-										<div class="tg-minicartfoot">
-											<div class="tg-btns">
-												<a class="tg-btn tg-active" href="javascript:void(0);">Đăng kí</a>
-												<a class="tg-btn" href="javascript:void(0);">Hủy</a>
-											</div>
-										</div>
+											<label class="lost-password">
+												<a href="#">Quên mật khẩu?</a>
+											</label>
+										</form>
 									</div>
 								</div>
 							</div>
-							<div class="tg-searchbox">
-								<form class="tg-formtheme tg-formsearch">
-									<fieldset>
-										<input type="text" name="search" class="typeahead form-control" placeholder="Search by title, author, keyword, ISBN...">
-										<button type="submit"><i class="icon-magnifier"></i></button>
-									</fieldset>
-									<a href="javascript:void(0);">+  Advanced Search</a>
-								</form>
+						</div>
+
+
+						<!-- Registration Form (inside the dropdown) -->
+						<div class="dropdown tg-themedropdown tg-minicartdropdown">
+							<a href="javascript:void(0);" id="tg-minicart" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="tg-themebadge">3</span>
+								<i class="icon-cart"></i>
+								<span>Đăng kí</span>
+							</a>
+							<div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-minicart">
+								<div class="modal-body">
+									<div class="login-form">
+										<form method="POST" action="register.php">
+											<label>Tên đăng nhập *</label>
+											<input type="text" name="username" placeholder="Tên đăng nhập" required />
+											<label>Mật khẩu *</label>
+											<input type="password" name="password" placeholder="Mật khẩu" required />
+											<label>Họ và tên *</label>
+											<input type="text" name="full_name" placeholder="Họ tên" required />
+											<div class="tg-btns" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+												<!-- Adjusted button size and centered them -->
+												<button class="tg-btn tg-active" type="submit" style="padding: 5px 15px; font-size: 12px; width: auto;">Đăng kí</button>
+												<button class="tg-btn" type="reset" style="padding: 5px 15px; font-size: 12px; width: auto;">Hủy</button>
+											</div>
+										</form>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="tg-navigationarea">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<nav id="tg-nav" class="tg-nav">
-								<div class="navbar-header">
-									<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tg-navigation" aria-expanded="false">
-										<span class="sr-only">Toggle navigation</span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-									</button>
-								</div>
-								<!-- Thay đổi phần hiển thị danh mục categories trong phần menu -->
-								<div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
-									<ul>
-										<li class="menu-item-has-children menu-item-has-mega-menu">
-											<a href="javascript:void(0);">Danh mục sách</a>
-											<div class="mega-menu">
-												<ul class="tg-themetabnav" role="tablist">
-													<?php foreach ($categories as $cat): ?>
-														<li role="presentation">
-															<a href="category.php?id=<?php echo $cat['cate_id']; ?>">
-																<?php echo $cat['cate_name']; ?>
-															</a>
-														</li>
-													<?php endforeach; ?>
-												</ul>
-												<div class="tab-content tg-themetabcontent">
-													<div role="tabpanel" class="tab-pane active" id="artandphotography">
-														<ul>
-															
-												
-														</ul>
-													</div>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tg-navigationarea">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <nav id="tg-nav" class="tg-nav">
+                        <div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);"><i class="fas fa-home"></i> Trang chủ</a>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="javascript:void(0);"><i class="fas fa-book"></i> Danh mục sách</a>
+                                    <div class="mega-menu">
+                                        <ul class="tg-themetabnav" role="tablist">
+                                            <?php foreach ($categories as $cat): ?>
+                                                <li role="presentation">
+                                                    <a href="category.php?id=<?php echo $cat['cate_id']; ?>">
+                                                        <?php echo $cat['cate_name']; ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <a href="javascript:void(0);"><i class="fas fa-user"></i> Danh mục tác giả</a>
+                                    <div class="mega-menu">
+                                        <ul class="tg-themetabnav" role="tablist">
+                                            <?php foreach ($authors as $au): ?>
+                                                <li role="presentation">
+                                                    <a href="category.php?id=<?php echo $au['au_id']; ?>">
+                                                        <?php echo $au['au_name']; ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"><i class="fas fa-phone"></i> Liên hệ</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"><i class="fas fa-pen"></i> Bài đăng</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"><i class="fas fa-info-circle"></i> Giới thiệu</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
 		<!--************************************
 				Header End
 		*************************************-->
@@ -221,88 +193,57 @@ $categories = $category->show();
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div class="tg-sectionhead">
 								<h2><span>People’s Choice</span>Bestselling Books</h2>
-								<a class="tg-btn" href="javascript:void(0);">View All</a>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div id="tg-bestsellingbooksslider" class="tg-bestsellingbooksslider tg-bestsellingbooks owl-carousel">
-								<div class="item">
-									<div class="tg-postbook">
-										<figure class="tg-featureimg">
-											<div class="tg-bookimg">
-												<div class="tg-frontcover"><img src="images/books/img-01.jpg" alt="image description"></div>
-												<div class="tg-backcover"><img src="images/books/img-01.jpg" alt="image description"></div>
+								<?php
+								if ($books) {
+									// Lặp qua từng cuốn sách
+									while ($row = $books->fetch_assoc()) {
+										?>
+										<!-- Book Item -->
+										<div class="item">
+											<div class="tg-postbook">
+												<figure class="tg-featureimg">
+													<div class="tg-bookimg">
+														<div class="tg-frontcover"><img src="\Project_Test_10624\admin\public\images\<?php echo $row['image']; ?>" alt="<?php echo $row['book_name']; ?>"></div>
+														<div class="tg-backcover"><img src="\Project_Test_10624\admin\public\images\<?php echo $row['image']; ?>" alt="<?php echo $row['book_name']; ?>"></div>
+													</div>
+													<a class="tg-btnaddtowishlist" href="javascript:void(0);">
+														<i class="icon-heart"></i>
+														<span>add to wishlist</span>
+													</a>
+												</figure>
+												<div class="tg-postbookcontent">
+													<div class="tg-themetagbox"><span class="tg-themetag"><?php echo $row['cate_name']; ?></span></div>
+													<div class="tg-booktitle">
+														<h3><a href="javascript:void(0);"><?php echo $row['book_name']; ?></a></h3>
+													</div>
+													<span class="tg-bookwriter">By: <a href="javascript:void(0);"><?php echo $row['au_name']; ?></a></span>
+													<span class="tg-bookprice">
+														<ins>Trạng thái: <?php echo $row['status']; ?></ins><br>
+														<?php 
+														$summary = $row['summary'];
+														// Giới hạn độ dài summary tối đa là 100 ký tự (có thể điều chỉnh)
+														echo (strlen($summary) > 100) ? substr($summary, 0, 100) . '...' : $summary; 
+														?>
+													</span>
+												</div>
 											</div>
-											<a class="tg-btnaddtowishlist" href="javascript:void(0);">
-												<i class="icon-heart"></i>
-												<span>add to wishlist</span>
-											</a>
-										</figure>
-										<div class="tg-postbookcontent">
-											<ul class="tg-bookscategories">
-												<li><a href="javascript:void(0);">Adventure</a></li>
-												<li><a href="javascript:void(0);">Fun</a></li>
-											</ul>
-											<div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
-											<div class="tg-booktitle">
-												<h3><a href="javascript:void(0);">Help Me Find My Stomach</a></h3>
-											</div>
-											<span class="tg-bookwriter">By: <a href="javascript:void(0);">Angela Gunning</a></span>
-											<span class="tg-stars"><span></span></span>
-											<span class="tg-bookprice">
-												<ins>$25.18</ins>
-												<del>$27.20</del>
-											</span>
-											<a class="tg-btn tg-btnstyletwo" href="javascript:void(0);">
-												<i class="fa fa-shopping-basket"></i>
-												<em>Add To Basket</em>
-											</a>
 										</div>
-									</div>
-								</div>
+										<?php
+									}
+								} else {
+									echo "<p>No books found.</p>";
+								}
+								?>
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>
-			<!--************************************
-					Best Selling End
-			*************************************-->
 
-			<!--************************************
-					Featured Item Start
-			*************************************-->
-			<section class="tg-bglight tg-haslayout">
-				<div class="container">
-					<div class="row">
-						<div class="tg-featureditm">
-							<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 hidden-sm hidden-xs">
-								<figure><img src="images/img-02.png" alt="image description"></figure>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-								<div class="tg-featureditmcontent">
-									<div class="tg-themetagbox"><span class="tg-themetag">featured</span></div>
-									<div class="tg-booktitle">
-										<h3><a href="javascript:void(0);">Things To Know About Green Flat Design</a></h3>
-									</div>
-									<span class="tg-bookwriter">By: <a href="javascript:void(0);">Farrah Whisenhunt</a></span>
-									<span class="tg-stars"><span></span></span>
-									<div class="tg-priceandbtn">
-										<span class="tg-bookprice">
-											<ins>$23.18</ins>
-											<del>$30.20</del>
-										</span>
-										<a class="tg-btn tg-btnstyletwo tg-active" href="javascript:void(0);">
-											<i class="fa fa-shopping-basket"></i>
-											<em>Add To Basket</em>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
 			<!--************************************
 					Featured Item End
 			*************************************-->
@@ -315,7 +256,7 @@ $categories = $category->show();
 						<div class="tg-newrelease">
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 								<div class="tg-sectionhead">
-									<h2><span>Taste The New Spice</span>New Release Books</h2>
+									<h2><span>Taste The New Spice</span> New Release Books</h2>
 								</div>
 								<div class="tg-description">
 									<p>Consectetur adipisicing elit sed do eiusmod tempor incididunt labore toloregna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcoiars nisiuip commodo consequat aute irure dolor in aprehenderit aveli esseati cillum dolor fugiat nulla pariatur cepteur sint occaecat cupidatat.</p>
@@ -328,81 +269,46 @@ $categories = $category->show();
 							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 								<div class="row">
 									<div class="tg-newreleasebooks">
-										<div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
-											<div class="tg-postbook">
-												<figure class="tg-featureimg">
-													<div class="tg-bookimg">
-														<div class="tg-frontcover"><img src="images/books/img-07.jpg" alt="image description"></div>
-														<div class="tg-backcover"><img src="images/books/img-07.jpg" alt="image description"></div>
+										<?php if (!empty($newBooks)) : ?>
+											<?php foreach ($newBooks as $row) : ?>
+												<div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
+													<div class="tg-postbook">
+														<figure class="tg-featureimg">
+															<div class="tg-bookimg">
+																<div class="tg-frontcover">
+																	<img src="admin/public/images/<?php echo $row['image']; ?>" alt="<?php echo $row['book_name']; ?>">
+																</div>
+																<div class="tg-backcover">
+																	<img src="admin/public/images/<?php echo $row['image']; ?>" alt="<?php echo $row['book_name']; ?>">
+																</div>
+															</div>
+															<a class="tg-btnaddtowishlist" href="javascript:void(0);">
+																<i class="icon-heart"></i>
+																<span>add to wishlist</span>
+															</a>
+														</figure>
+														<div class="tg-postbookcontent">
+															<ul class="tg-bookscategories">
+																<li><a href="javascript:void(0);"><?php echo $row['cate_name']; ?></a></li>
+															</ul>
+															<div class="tg-booktitle">
+																<h3><a href="javascript:void(0);"><?php echo $row['book_name']; ?></a></h3>
+															</div>
+															<span class="tg-bookwriter">By: <a href="javascript:void(0);"><?php echo $row['au_name']; ?></a></span>
+															<span class="tg-bookprice">
+																<ins>Trạng thái: <?php echo $row['status']; ?></ins><br>
+																<?php 
+																$summary = $row['summary'];
+																echo (strlen($summary) > 100) ? substr($summary, 0, 100) . '...' : $summary; 
+																?>
+															</span>
+														</div>
 													</div>
-													<a class="tg-btnaddtowishlist" href="javascript:void(0);">
-														<i class="icon-heart"></i>
-														<span>add to wishlist</span>
-													</a>
-												</figure>
-												<div class="tg-postbookcontent">
-													<ul class="tg-bookscategories">
-														<li><a href="javascript:void(0);">Adventure</a></li>
-														<li><a href="javascript:void(0);">Fun</a></li>
-													</ul>
-													<div class="tg-booktitle">
-														<h3><a href="javascript:void(0);">Help Me Find My Stomach</a></h3>
-													</div>
-													<span class="tg-bookwriter">By: <a href="javascript:void(0);">Kathrine Culbertson</a></span>
-													<span class="tg-stars"><span></span></span>
 												</div>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
-											<div class="tg-postbook">
-												<figure class="tg-featureimg">
-													<div class="tg-bookimg">
-														<div class="tg-frontcover"><img src="images/books/img-08.jpg" alt="image description"></div>
-														<div class="tg-backcover"><img src="images/books/img-08.jpg" alt="image description"></div>
-													</div>
-													<a class="tg-btnaddtowishlist" href="javascript:void(0);">
-														<i class="icon-heart"></i>
-														<span>add to wishlist</span>
-													</a>
-												</figure>
-												<div class="tg-postbookcontent">
-													<ul class="tg-bookscategories">
-														<li><a href="javascript:void(0);">Adventure</a></li>
-														<li><a href="javascript:void(0);">Fun</a></li>
-													</ul>
-													<div class="tg-booktitle">
-														<h3><a href="javascript:void(0);">Drive Safely, No Bumping</a></h3>
-													</div>
-													<span class="tg-bookwriter">By: <a href="javascript:void(0);">Sunshine Orlando</a></span>
-													<span class="tg-stars"><span></span></span>
-												</div>
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-3 col-lg-4 hidden-md">
-											<div class="tg-postbook">
-												<figure class="tg-featureimg">
-													<div class="tg-bookimg">
-														<div class="tg-frontcover"><img src="images/books/img-09.jpg" alt="image description"></div>
-														<div class="tg-backcover"><img src="images/books/img-09.jpg" alt="image description"></div>
-													</div>
-													<a class="tg-btnaddtowishlist" href="javascript:void(0);">
-														<i class="icon-heart"></i>
-														<span>add to wishlist</span>
-													</a>
-												</figure>
-												<div class="tg-postbookcontent">
-													<ul class="tg-bookscategories">
-														<li><a href="javascript:void(0);">Adventure</a></li>
-														<li><a href="javascript:void(0);">Fun</a></li>
-													</ul>
-													<div class="tg-booktitle">
-														<h3><a href="javascript:void(0);">Let The Good Times Roll Up</a></h3>
-													</div>
-													<span class="tg-bookwriter">By: <a href="javascript:void(0);">Elisabeth Ronning</a></span>
-													<span class="tg-stars"><span></span></span>
-												</div>
-											</div>
-										</div>
+											<?php endforeach; ?>
+										<?php else : ?>
+											<p>No new books available.</p>
+										<?php endif; ?>
 									</div>
 								</div>
 							</div>
@@ -996,18 +902,18 @@ $categories = $category->show();
 	<!--************************************
 			Wrapper End
 	*************************************-->
-	<script src="js/vendor/jquery-library.js"></script>
-	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="users/public/js/vendor/jquery-library.js"></script>
+	<script src="users/public/js/vendor/bootstrap.min.js"></script>
 	<script src="https://maps.google.com/maps/api/js?key=AIzaSyCR-KEWAVCn52mSdeVeTqZjtqbmVJyfSus&amp;language=en"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/jquery.vide.min.js"></script>
-	<script src="js/countdown.js"></script>
-	<script src="js/jquery-ui.js"></script>
-	<script src="js/parallax.js"></script>
-	<script src="js/countTo.js"></script>
-	<script src="js/appear.js"></script>
-	<script src="js/gmap3.js"></script>
-	<script src="js/main.js"></script>
+	<script src="users/public/js/owl.carousel.min.js"></script>
+	<script src="users/public/js/jquery.vide.min.js"></script>
+	<script src="users/public/js/countdown.js"></script>
+	<script src="users/public/js/jquery-ui.js"></script>
+	<script src="users/public/js/parallax.js"></script>
+	<script src="users/public/js/countTo.js"></script>
+	<script src="users/public/js/appear.js"></script>
+	<script src="users/public/js/gmap3.js"></script>
+	<script src="users/public/js/main.js"></script>
 </body>
 
 </html>

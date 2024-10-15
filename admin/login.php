@@ -1,4 +1,6 @@
 <?php
+session_start(); // Bắt đầu session
+
 require ('../class/adminlogin.php');
 
 $class = new adminlogin();
@@ -8,8 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $password = md5($_POST['password']);
 
     $login_check = $class->login_admin($username, $password);
+
+    if ($login_check) {
+        // Đăng nhập thành công, lưu thông tin vào session
+        $_SESSION['admin_login'] = true;
+        $_SESSION['username'] = $username;
+        header("Location: dashboard.php"); // Chuyển hướng tới trang dashboard sau khi đăng nhập
+        exit();
+    } else {
+        // Hiển thị thông báo lỗi nếu đăng nhập thất bại
+        $login_check = "Invalid username or password!";
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

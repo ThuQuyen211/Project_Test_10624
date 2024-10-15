@@ -4,14 +4,9 @@
  **/
 class Session {
     public static function init() {
-        if (version_compare(phpversion(), '8.2.12', '<')) {
-            if (session_id() == '') {
-                session_start();
-            }
-        } else {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+        // Bắt đầu session nếu chưa bắt đầu, kiểm tra phiên bản PHP hiện tại
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
     }
 
@@ -29,25 +24,25 @@ class Session {
 
     public static function checkSession() {
         self::init();
-        if (self::get("adminlogin") == false){
+        if (self::get("adminlogin") == false) {
             self::destroy();
             header("Location: ../admin/login.php");
-            exit();// Thêm exit sau header để ngăn chặn mã tiếp tục chạy
+            exit(); // Ngăn mã tiếp tục chạy sau khi chuyển hướng
         }
     }
 
     public static function checkLogin() {
         self::init();
         if (self::get("adminlogin") == true) {
-            header("Location: ../admin/index.php"); // Thêm exit sau header
-            // Thêm exit sau header để ngăn chặn mã tiếp tục chạy
+            header("Location: ../admin/index.php");
+            exit(); // Ngăn mã tiếp tục chạy sau khi chuyển hướng
         }
     }
 
     public static function destroy() {
         session_destroy();
         header("Location: ../admin/login.php");
-     // Thêm exit sau header để ngăn chặn mã tiếp tục chạy
+        exit(); // Ngăn mã tiếp tục chạy sau khi chuyển hướng
     }
 }
 ?>

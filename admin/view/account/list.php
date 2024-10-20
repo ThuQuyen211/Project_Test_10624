@@ -30,11 +30,8 @@ $results = $account->show();
                         <thead>
                             <tr>
                                 <th>Mã tài khoản</th>
-                                <th>Mã độc giả</th>
-                                <th>Họ và tên</th>
                                 <th>Tên đăng nhập</th>
                                 <th>Mật khẩu</th>
-                                <th>Hình đại diện</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
@@ -42,17 +39,8 @@ $results = $account->show();
                             <?php if ($results) : while ($row = $results->fetch_assoc()) : ?>
                                 <tr>
                                     <td><?= $row['id']; ?></td>
-                                    <td><?= $row['read_id']; ?></td>
-                                    <td><?= $row['fullname']; ?></td>
                                     <td><?= $row['username']; ?></td>
                                     <td><?= $row['password']; ?></td>
-                                    <td>
-                                        <?php if (!empty($row['image'])) : ?>
-                                            <img style="width:100px" src="../admin/public/images/<?= $row['image']; ?>">
-                                        <?php else : ?>
-                                            Không có ảnh
-                                        <?php endif; ?>
-                                    </td>
                                     <td>
                                         <a href="editaccount.php?id=<?= $row['id']; ?>" title="Sửa"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="deleteaccount.php?id=<?= $row['id']; ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa?')"><i class="fas fa-trash-alt"></i></a>

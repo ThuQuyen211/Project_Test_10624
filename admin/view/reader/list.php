@@ -28,6 +28,8 @@ $result = $reader->show(); // Lấy danh sách độc giả từ cơ sở dữ l
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ email</th>
+                                <th>Tên đăng nhập</th>
+                                <th>Mật khẩu</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
@@ -40,6 +42,8 @@ $result = $reader->show(); // Lấy danh sách độc giả từ cơ sở dữ l
                                         <td><?php echo htmlspecialchars($row['address']); ?></td>
                                         <td><?php echo htmlspecialchars($row['phone']); ?></td>
                                         <td><?php echo htmlspecialchars($row['mail']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['username']);?></td>
+                                        <td><?php echo md5($row['password'], PASSWORD_DEFAULT); // Mật khẩu được mã hóa trước khi lưu vào cơ sở dữ liệu?></td>
                                         <td>
                                             <a href="view/reader/edit.php?read_id=<?php echo $row['read_id']; ?>" title="Sửa"><i class="fas fa-pencil-alt"></i></a> ||
                                             <a href="view/reader/delete.php?read_id=<?php echo $row['read_id']; ?>" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa?')"><i class="fas fa-trash-alt"></i></a>

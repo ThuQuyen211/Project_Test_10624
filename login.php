@@ -1,10 +1,9 @@
 <?php
-require ('../lib/session.php');
-SESSION::checkLogin();
-require ('../lib/database.php');
-require ('../helper/format.php');
+require_once(__DIR__ . '/lib/session.php');
+require_once(__DIR__ . '/lib/database.php');
+require_once(__DIR__ . '/helper/format.php');
 
-class adminlogin
+class login
 {
     private $db;
     private $fm;
@@ -16,7 +15,7 @@ class adminlogin
         $this->fm = new Format();
     }
 
-    public function login_admin($username, $password)
+    public function login($username, $password)
     {
         $username = $this->fm->validation($username);
         $password = $this->fm->validation($password);
@@ -32,27 +31,23 @@ class adminlogin
         $username = mysqli_real_escape_string($this->db->conn, $username);
         $password = mysqli_real_escape_string($this->db->conn, $password);
 
-        if(empty($username) || empty($password))
-        {
-            return "Tên đăng nhập và mật khẩu không được để trống!";
-        } else {
-            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' AND level= '0' LIMIT 1";
+            $sql = "SELECT * FROM reader WHERE username='$username' AND password='" . md5($password) . "' LIMIT 1";
             $result = $this->db->select($sql);
 
             if($result != false)
             {
                 $value = $result->fetch_assoc();
-                Session::set("adminlogin", true);
-                Session::set("id", $value['id']);
+                Session::set("login", true);
+                Session::set("read_id", $value['read_id']);
                 Session::set("username", $value['username']);
-                header("Location: ../admin/index.php");
+                header("Location: index.php");
             }
             else
             {
                 return "Tên đăng nhập/ Mật khẩu không đúng!";
                 
             }
-        }
+        
     }
 }
 ?>

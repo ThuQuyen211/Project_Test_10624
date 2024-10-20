@@ -1,33 +1,51 @@
 <?php
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'your_database_name');
+require_once(__DIR__ . '/lib/database.php');
+require_once(__DIR__ . '/helper/format.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hashing the password
-    $full_name = $_POST['full_name'];
+class register
+{
+    private $db;
+    private $fm;
 
-    // Check if the username exists
-    $checkUser = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($checkUser);
-    $stmt->bind_param('s', $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    public function __construct()
+    {
+        $this->db = new Database();
+        $this->db->connect(); // Đảm bảo kết nối được thực hiện
+        $this->fm = new Format();
+    }
+    public function add($read_id, $read_name, $address, $phone, $mail, $username, $password)
+    {
+        $read_id = $this->fm->validation($read_id);
+        $read_id = mysqli_real_escape_string($this->db->conn, $read_id);
 
-    if ($result->num_rows > 0) {
-        echo "Tên đăng nhập đã tồn tại!";
-    } else {
-        // Insert new user
-        $insertQuery = "INSERT INTO users (username, password, full_name) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($insertQuery);
-        $stmt->bind_param('sss', $username, $password, $full_name);
+        $read_name = $this->fm->validation($read_name);
+        $read_name = mysqli_real_escape_string($this->db->conn, $read_name);
 
-        if ($stmt->execute()) {
-            echo "Đăng kí thành công!";
-            header("Location: login.php"); // Redirect to login page after registration
+        $address = $this->fm->validation($address);
+        $address = mysqli_real_escape_string($this->db->conn, $address);
+
+        $phone = $this->fm->validation($phone);
+        $phone = mysqli_real_escape_string($this->db->conn, $phone);
+
+        $mail = $this->fm->validation($mail);
+        $mail = mysqli_real_escape_string($this->db->conn, $mail);
+
+        $username = $this->fm->validation($username);
+        $username = mysqli_real_escape_string($this->db->conn, $username);
+
+        $password = $this->fm->validation($password);
+        $password = mysqli_real_escape_string($this->db->conn, md5($password));
+
+        $sql = "INSERT INTO reader(read_id, read_name, address, phone, mail, username, password) 
+        VALUES('$read_id', '$read_name', '$address', '$phone', '$mail', '$username', '$password')";
+
+        $inserted = $this->db->insert($sql);
+        if ($inserted) {
+            return true;
         } else {
-            echo "Có lỗi xảy ra, vui lòng thử lại.";
+            echo "Lỗi khi thêm dữ liệu: " . $this->db->conn->error;
+            return false;
+        }
         }
     }
-}
 ?>

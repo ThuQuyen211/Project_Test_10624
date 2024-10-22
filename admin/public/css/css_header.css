@@ -1,0 +1,100 @@
+.app-sidebar {
+  width: 60px; /* Width when sidebar is collapsed */
+  transition: width 0.3s ease; /* Smooth transition for width changes */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: auto; /* Allow vertical scrolling */
+  position: fixed; /* Fixed position on the left */
+  top: 0;
+  bottom: 0;
+  background-color: #00264d; /* Sidebar background color */
+  z-index: 1000; /* Ensure it's above other content */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Opera */
+.app-sidebar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* Show sidebar on hover */
+.app-sidebar:hover {
+  width: 250px; /* Expanded width */
+}
+
+/* Ensure menu items can scroll when too long */
+.app-menu {
+  list-style: none; /* No bullet points */
+  padding: 0; /* No padding */
+  margin: 0; /* No margin */
+}
+
+.app-menu__item {
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Ellipsis for overflowing text */
+  color: white; /* Text color */
+  padding: 10px; /* Padding for better spacing */
+}
+
+/* Icon styles */
+.app-menu__icon {
+  color: white; /* Icon color */
+}
+
+/* User info displayed on sidebar hover */
+.app-sidebar:hover .app-sidebar__user {
+  display: flex; /* Display user info */
+}
+
+/* Content styling */
+.app-content {
+  margin-left: 60px; /* Margin for content when sidebar is collapsed */
+  padding: 10px; /* Padding for content */
+  transition: margin-left 0.3s ease; /* Smooth transition for margin */
+}
+
+/* Shift content when sidebar expands */
+.app-sidebar:hover ~ .app-content {
+  margin-left: 300px; /* Shift content right when expanded */
+}
+
+/* Navbar fixed position */
+.app-header {
+  position: fixed; /* Keep header fixed at top */
+  width: 100%; /* Full width */
+  top: 0; /* Align to top */
+  z-index: 999; /* Above other content */
+  background-color: #fff; /* Header background */
+  border-bottom: 1px solid #e0e0e0; /* Bottom border */
+}
+
+/* Ensure content is below header */
+.app-content {
+  margin-top: 60px; /* Avoid overlap with header */
+}
+
+/* Logout button styling */
+.app-nav__item {
+  background-color: transparent; /* Transparent background */
+  color: black; /* Text color */
+}
+
+.app-nav__item i {
+  color: black; /* Icon color */
+}
+
+/* User info styling */
+.app-sidebar__user {
+  padding: 10px; /* Padding around user info */
+  display: flex; /* Flexbox layout */
+  align-items: center; /* Center items vertically */
+}
+
+/* User name and designation styling */
+.app-sidebar__user-name,
+.app-sidebar__user-designation {
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Ellipsis for overflowing text */
+  color: white; /* Text color */
+}

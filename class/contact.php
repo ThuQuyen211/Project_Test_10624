@@ -19,5 +19,24 @@ class contact
         return $result;
     }
     
+    public function add($name, $email, $message){
+        $name = $this->fm->validation($name);
+        $name = mysqli_real_escape_string($this->db->conn, $name);
+
+        $email = $this->fm->validation($email);
+        $email = mysqli_real_escape_string($this->db->conn, $email);
+
+        $message = $this->fm->validation($message);
+        $message = mysqli_real_escape_string($this->db->conn, $message);
+
+        $sql = "INSERT INTO contact (name, email, message) VALUES ('$name', '$email', '$message')";
+        $inserted = $this->db->insert($sql);
+        if ($inserted) {
+            return true;
+        } else {
+            echo "Lỗi khi thêm dữ liệu: " . $this->db->conn->error;
+            return false;
+        }
+    }
 }
 ?>

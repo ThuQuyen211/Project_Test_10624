@@ -3,6 +3,7 @@ session_start();
 require_once('class/category.php');
 require_once('class/book.php');
 require_once('class/author.php');
+require_once('class/post.php');
 require_once('register.php');
 require_once('login.php');
 require_once('reader.php');
@@ -18,6 +19,9 @@ $newBooks = $bookModel->get3Book(); // Assuming get3Book() returns the 3 newest 
 
 $author = new author();
 $authors = $author->show();
+
+$post = new post();
+$posts = $post->show();
 
 $register = new register();
 $login = new login();
@@ -154,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="users/public/css/main.css">
     <link rel="stylesheet" href="users/public/css/color.css">
     <link rel="stylesheet" href="users/public/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMK+3c6p3O3CbZ5sxB6PTj9mHDvZ7A9z6+vV3XJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="users/public/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
@@ -165,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <strong class="tg-logo">
-                            <a href="index-2.html">
+                            <a href="index.php">
                                 <img src="\Project_Test_10624\users\public\images\logo_lib.png" alt="company name here" class="logo-small" style="width: 100px; height: auto;">
                             </a>
                             <p class="slogan" style="margin-top: 5px; font-size: 14px; color: #555;">HaiPhong library</p>
@@ -294,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <ul class="tg-themetabnav" role="tablist">
                                             <?php foreach ($authors as $au): ?>
                                                 <li role="presentation">
-                                                    <a href="category.php?au_id=<?php echo $au['au_id']; ?>">
+                                                    <a href="book_au.php?au_id=<?php echo $au['au_id']; ?>">
                                                         <?php echo $au['au_name']; ?>
                                                     </a>
                                                 </li>
@@ -303,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);"><i class="fas fa-phone"></i> Liên hệ</a>
+                                    <a href="contact.php"><i class="fas fa-phone"></i> Liên hệ</a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);"><i class="fas fa-pen"></i> Bài đăng</a>

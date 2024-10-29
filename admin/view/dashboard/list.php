@@ -45,12 +45,12 @@ while ($row = $result5->fetch_assoc()) {
     <!-- Navbar -->
     <header class="app-header">
         <ul class="app-nav">
-        <?php
-        if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-            Session::destroy();
-        }
-        ?>
-        <li><a class="app-nav__item" href="?action=logout"><i class='bx bx-log-out bx-rotate-180'></i></a></li>
+            <?php
+            if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+                Session::destroy();
+            }
+            ?>
+            <li><a class="app-nav__item" href="?action=logout"><i class='bx bx-log-out bx-rotate-180'></i></a></li>
         </ul>
     </header>
 
@@ -70,7 +70,7 @@ while ($row = $result5->fetch_assoc()) {
             <?php if ($result1): ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="widget-small primary coloured-icon">
-                        <i class='icon bx bxs-user fa-3x'></i>
+                        <i class='fas fa-book fa-3x'></i> <!-- Updated icon -->
                         <div class="info">
                             <h4>Tổng số sách</h4>
                             <p><b><?php echo mysqli_num_rows($result1); ?></b></p>
@@ -82,7 +82,7 @@ while ($row = $result5->fetch_assoc()) {
             <?php if ($result2): ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="widget-small info coloured-icon">
-                        <i class='icon bx bxs-purchase-tag-alt fa-3x'></i>
+                        <i class='fas fa-users fa-3x'></i> <!-- Updated icon -->
                         <div class="info">
                             <h4>Tổng số độc giả</h4>
                             <p><b><?php echo mysqli_num_rows($result2); ?></b></p>
@@ -94,7 +94,7 @@ while ($row = $result5->fetch_assoc()) {
             <?php if ($result3): ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="widget-small warning coloured-icon">
-                        <i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
+                        <i class='fas fa-tags fa-3x'></i> <!-- Updated icon -->
                         <div class="info">
                             <h4>Tổng số thể loại</h4>
                             <p><b><?php echo mysqli_num_rows($result3); ?></b></p>
@@ -106,7 +106,7 @@ while ($row = $result5->fetch_assoc()) {
             <?php if ($result4): ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="widget-small warning coloured-icon">
-                        <i class='icon fa-3x bx bxs-tag-x'></i>
+                        <i class='fas fa-exclamation-triangle fa-3x'></i> <!-- Updated icon -->
                         <div class="info">
                             <h4>Hết hàng</h4>
                             <p><b><?php echo mysqli_num_rows($result4); ?></b></p>

@@ -97,14 +97,22 @@ class category
         return $this->db->select($query);
     }
     public function getBookbyCateid($cate_id) {
+        // Xác thực và bảo vệ giá trị cate_id
         $cate_id = $this->fm->validation($cate_id);
         $cate_id = mysqli_real_escape_string($this->db->conn, $cate_id);
+    
+        // Xây dựng câu truy vấn
         $sql = "SELECT s.book_id, s.book_name, tg.au_id, tg.au_name, tl.cate_id, tl.cate_name, nxb.pub_id, nxb.pub_name, s.page, s.status, s.image, s.summary 
                 FROM book s
                 JOIN author tg ON s.au_id = tg.au_id
                 JOIN category tl ON s.cate_id = tl.cate_id
-                JOIN publisher nxb ON s.pub_id = nxb.pub_id WHERE tl.cate_id = '$cate_id'";
-        return $this->db->select($sql);
+                JOIN publisher nxb ON s.pub_id = nxb.pub_id 
+                WHERE tl.cate_id = '$cate_id'";
+    
+        // Thực hiện truy vấn
+        $result = $this->db->select($sql);
+    
+        return $result; 
     }
 }
 ?>

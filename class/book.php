@@ -210,6 +210,17 @@ class book
         ORDER BY s.creat_at DESC -- Change 'created_at' to the actual column name you use for tracking book creation or update time
         LIMIT 3"; 
         return $this->db->select($sql);
-        }
     }
+
+    public function get_idBook($book_id){
+        $sql = "SELECT s.book_id, s.book_name, tg.au_id, tg.au_name, tl.cate_id, tl.cate_name, nxb.pub_id, nxb.pub_name, s.page, s.status, s.image, s.summary 
+        FROM book s
+        JOIN author tg ON s.au_id = tg.au_id
+        JOIN category tl ON s.cate_id = tl.cate_id
+        JOIN publisher nxb ON s.pub_id = nxb.pub_id
+        WHERE book_id = '$book_id'";
+
+        return $this->db->select($sql);
+    }
+}
 ?>

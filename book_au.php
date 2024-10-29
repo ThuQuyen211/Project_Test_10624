@@ -1,17 +1,17 @@
 <?php
 require('header.php');
 require_once(__DIR__ . '/lib/database.php');
-require_once(__DIR__ . '/class/category.php');
+require_once(__DIR__ . '/class/author.php');
 
-// Kiểm tra xem 'cate_id' có được truyền qua URL không
-if (isset($_GET['cate_id'])) {
-    $cate_id = intval($_GET['cate_id']); // Đảm bảo cate_id là số nguyên
+// Kiểm tra xem 'au_id' có được truyền qua URL không
+if (isset($_GET['au_id'])) {
+    $au_id = intval($_GET['au_id']); // Đảm bảo au_id là số nguyên
     
-    // Tạo một đối tượng từ class category
-    $category = new category();
+    // Tạo một đối tượng từ class author
+    $author = new author();
 
-    // Lấy danh sách sách theo category ID
-    $data = $category->getBookbyCateid($cate_id);
+    // Lấy danh sách sách theo author ID
+    $data = $author->getBookbyAuthorid($au_id);
 
     // Kiểm tra nếu có dữ liệu trả về
     if ($data && $data->num_rows > 0) {
@@ -87,12 +87,12 @@ if (isset($_GET['cate_id'])) {
     } else {
         // Không tìm thấy sách nào
         echo '<div class="container">';
-        echo '<h1>No books found in this category.</h1>';
+        echo '<h1>No books found in this author.</h1>';
         echo '</div>';
     }
 } else {
 echo '<div class="container">';
-echo '<h1>Invalid category ID.</h1>';
+echo '<h1>Invalid author ID.</h1>';
 echo '</div>';
 }
 

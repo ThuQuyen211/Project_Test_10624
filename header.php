@@ -3,6 +3,7 @@ session_start();
 require_once('class/category.php');
 require_once('class/book.php');
 require_once('class/author.php');
+require_once('class/search_model.php');
 require_once('class/post.php');
 require_once('register.php');
 require_once('login.php');
@@ -13,6 +14,7 @@ $categories = $category->show();
 
 $book = new book();
 $books = $book->show();
+
 
 $bookModel = new book();
 $newBooks = $bookModel->get3Book(); // Assuming get3Book() returns the 3 newest books
@@ -121,6 +123,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         exit(); // Ensure no further code is executed
     }
+    $searchModel = new SearchModel();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
+    $keyword = $_POST['query'];
+    $searchResults = $searchModel->search($keyword); // Call the search method
+} else {
+    $searchResults = []; // Initialize an empty result set if no query
+}
     
     // Check if the user is logged in
     $login_check = isset($_SESSION['login']) ? $_SESSION['login'] : false;
@@ -144,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Book Library</title>
+    <title>Thư viện Đại học Hải Phòng</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -176,11 +186,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <p class="slogan" style="margin-top: 5px; font-size: 14px; color: #555;">HaiPhong library</p>
                         </strong>
                         <div class="tg-searchbox" style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
-                            <form action="index.php?controller=search&action=search" method="GET" style="position: relative; width: 300px;">
-                                <input type="hidden" name="controller" value="search">
-                                <input type="hidden" name="action" value="search">
+                            <form action="search.php" method="POST" style="position: relative; width: 300px;">
                                 <input type="text" name="query" placeholder="Tìm kiếm sách, tác giả..." required style="width: 100%; padding: 8px 40px 8px 10px; border-radius: 20px; border: 1px solid #ccc; outline: none; font-size: 14px;">
-                                <button type="submit" style="position: absolute; top: 0; right: 0; height: 100%; width: 40px; background: transparent; border: none; cursor: pointer;">
+                                <button type="submit" name ="search" style="position: absolute; top: 0; right: 0; height: 100%; width: 40px; background: transparent; border: none; cursor: pointer;">
                                     <i class="fas fa-search" style="color: #333; font-size: 16px;"></i>
                                 </button>
                             </form>

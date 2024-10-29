@@ -28,7 +28,7 @@ if (isset($_GET['book_id'])) {
 }
 
 ?>
-    <title><?php echo htmlspecialchars($book['book_name']); ?> - Book Details</title>
+<title><?php echo htmlspecialchars($book['book_name']); ?> - Book Details</title>
 <div class="container">
     <h1 class="my-4"><?php echo htmlspecialchars($book['book_name']); ?></h1>
     <div class="row">
